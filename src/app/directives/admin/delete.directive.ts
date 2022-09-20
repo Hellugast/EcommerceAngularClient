@@ -3,6 +3,7 @@ import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, Rende
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent, DeleteState } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
+import { DialogService } from 'src/app/services/common/dialog.service';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
 
 
@@ -18,7 +19,8 @@ export class DeleteDirective {
     private _renderer: Renderer2,
     private httpClientService: HttpClientService,
     public dialog: MatDialog,
-    private alertifyService: AlertifyService
+    private alertifyService: AlertifyService,
+    private dialogService: DialogService
   ) {
     const img = _renderer.createElement("img");
     img.setAttribute("src", "../../../../../assets/delete.png");
@@ -32,39 +34,43 @@ export class DeleteDirective {
 
   @HostListener("click")
   async onclick() {
-    this.openDialog(async () => {
-      const td: HTMLTableCellElement = this.element.nativeElement;
-      this.httpClientService.delete({
-        controller: this.controller
-      }, this.id).subscribe(data => {
-        $(td.parentElement).fadeOut(500, () => {
-          this.callback.emit();
-          this.alertifyService.message("ürün başarıyla silindi", {
-            messageType: MessageType.Success,
+    this.dialogService.openDialog({
+      componentType: DeleteDialogComponent,
+      data: DeleteState.Yes,
+      afterClosed: async () => {
+        const td: HTMLTableCellElement = this.element.nativeElement;
+        this.httpClientService.delete({
+          controller: this.controller
+        }, this.id).subscribe(data => {
+          $(td.parentElement).fadeOut(500, () => {
+            this.callback.emit();
+            this.alertifyService.message("ürün başarıyla silindi", {
+              messageType: MessageType.Success,
+              position: Position.TopRight
+            })
+          });
+        }, (errorResponse: HttpErrorResponse) => {
+          this.alertifyService.message("bir hata ile karşılaşıldı", {
+            messageType: MessageType.Error,
             position: Position.TopRight
           })
         });
-      }, (errorResponse: HttpErrorResponse) => {
-        this.alertifyService.message("bir hata ile karşılaşıldı", {
-          messageType: MessageType.Error,
-          position: Position.TopRight
-        })
-      });
-    });
-  }
-
-  openDialog(afterClosed: any): void {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      width: '250px',
-      data: DeleteState.Yes,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == DeleteState.Yes) {
-        afterClosed();
       }
     });
   }
+
+  // openDialog(afterClosed: any): void {
+  //   const dialogRef = this.dialog.open(DeleteDialogComponent, {
+  //     width: '250px',
+  //     data: DeleteState.Yes,
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result == DeleteState.Yes) {
+  //       afterClosed();
+  //     }
+  //   });
+  // }
 
 
 }
