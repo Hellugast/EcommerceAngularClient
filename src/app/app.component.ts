@@ -10,11 +10,5 @@ declare var $: any
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'EcommerceAngularClient';
-  constructor(private toastService: CustomToastrService) {
-    toastService.message("toast test", "bab", {
-      messageType: ToastrMessageType.Success,
-      position: ToastrPosition.BottomRight
-    })
-  }
+  
 }
