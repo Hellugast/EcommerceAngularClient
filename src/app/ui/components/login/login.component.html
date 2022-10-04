@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input #txtUserName type="text" class="form-control" id="username" placeholder="Username">
+            <small class="form-text text-muted invalid-feedback">***</small>
+
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input #txtPassword type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+
+        <button type="submit" style="margin-top: 5px;" class="btn btn-primary"
+            (click)="login(txtUserName.value,txtPassword.value)">Login</button>
+    </div>
+    <div class="col-md-3"></div>
+</div>

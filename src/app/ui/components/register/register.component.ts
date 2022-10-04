@@ -1,7 +1,9 @@
 import { group } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { BaseComponent } from 'src/app/base/base.component';
 import { Create_User } from 'src/app/contracts/users/create_user';
 import { User } from 'src/app/entities/user';
 import { MessageType } from 'src/app/services/admin/alertify.service';
@@ -13,9 +15,12 @@ import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends BaseComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private toastService: CustomToastrService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService,
+    private toastService: CustomToastrService, spinner: NgxSpinnerService) {
+    super(spinner)
+  }
 
   frm: FormGroup;
   ngOnInit(): void {
@@ -63,12 +68,12 @@ export class RegisterComponent implements OnInit {
         position: ToastrPosition.TopRight
       })
     }
-    else 
-    this.toastService.message(result.message, "Hata", {
-      messageType: ToastrMessageType.Error,
-      position: ToastrPosition.TopRight
-    })
-    
+    else
+      this.toastService.message(result.message, "Hata", {
+        messageType: ToastrMessageType.Error,
+        position: ToastrPosition.TopRight
+      })
+
   }
 
 }
