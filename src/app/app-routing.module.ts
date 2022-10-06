@@ -4,25 +4,26 @@ import { AdminModule } from './admin/admin.module';
 import { CustomerComponent } from './admin/components/customer/customer.component';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
 import { LayoutComponent } from './admin/layout/layout.component';
+import { AuthGuard } from './guards/common/auth.guard';
 import { HomeComponent } from './ui/components/home/home.component';
 
 const routes: Routes = [
   {
     path: "admin", component: LayoutComponent, children: [
-      { path: "", component: DashboardComponent },
+      { path: "", component: DashboardComponent, canActivate: [AuthGuard] },
       {
         path: "customers", loadChildren: () => import("./admin/components/customer/customer.module").then
-          (module => module.CustomerModule)
+          (module => module.CustomerModule), canActivate: [AuthGuard]
       },
       {
         path: "products", loadChildren: () => import("./admin/components/products/products.module").then
-          (module => module.ProductsModule)
+          (module => module.ProductsModule), canActivate: [AuthGuard]
       },
       {
         path: "orders", loadChildren: () => import("./admin/components/order/order.module").then
-          (module => module.OrderModule)
+          (module => module.OrderModule), canActivate: [AuthGuard]
       }
-    ]
+    ], canActivate: [AuthGuard]
   },
   {
     path: "", component: HomeComponent

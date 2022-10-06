@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { DeleteDirective } from './directives/admin/delete.directive';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,16 @@ import { DeleteDirective } from './directives/admin/delete.directive';
     AdminModule, UiModule, BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgxSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem("accessToken"),
+        allowedDomains: ["localhost:7019"]
+      }
+    })
   ],
   providers: [
-    {provide: "baseUrl", useValue: "https://localhost:7019/api", multi:true}
+    { provide: "baseUrl", useValue: "https://localhost:7019/api", multi: true }
   ],
   bootstrap: [AppComponent]
 })
