@@ -11,10 +11,13 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { DeleteDirective } from './directives/admin/delete.directive';
 import { JwtModule } from '@auth0/angular-jwt';
+import { LoginComponent } from './ui/components/login/login.component';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -28,10 +31,24 @@ import { JwtModule } from '@auth0/angular-jwt';
         tokenGetter: () => localStorage.getItem("accessToken"),
         allowedDomains: ["localhost:7019"]
       }
-    })
+    }),
+    SocialLoginModule
   ],
   providers: [
-    { provide: "baseUrl", useValue: "https://localhost:7019/api", multi: true }
+    { provide: "baseUrl", useValue: "https://localhost:7019/api", multi: true },
+    {
+      provide: "SocialAuthServiceConfig",
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider("1084349825122-5qgcaju79j1dakgah2otfblimmv1c64d.apps.googleusercontent.com")
+          }
+        ],
+        onError: err => console.log(err)
+      } as SocialAuthServiceConfig
+    }
   ],
   bootstrap: [AppComponent]
 })
