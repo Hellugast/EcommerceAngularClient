@@ -5,6 +5,7 @@ import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { List_Product } from 'src/app/contracts/list_product';
 import { firstValueFrom, Observable } from 'rxjs';
 import { List_Product_Image } from 'src/app/contracts/list_product_image';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Injectable({
   providedIn: 'root'
@@ -93,5 +94,15 @@ export class ProductService {
     await firstValueFrom(deleteObservable);
   }
 
+  async changeShowcaseImage(imageId: string, productId: string, successCallBack?: () => void) {
+    const changeShowcaseImageObservable = this.httpClientService.put({
+      controller: "products",
+      action: "ChangeShowcaseImage",
+      queryString: `imageId=${imageId}&productId=${productId}`,
+
+    },{})
+    await firstValueFrom(changeShowcaseImageObservable);
+    successCallBack();
+  }
 
 }

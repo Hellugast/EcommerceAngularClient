@@ -1,6 +1,9 @@
 <div class="row">
     <div class="card" style="width: 14rem; float: left; margin: 10px;" *ngFor="let product of products;">
-        <img src="../../../../../assets/edit.png" class="card-img-top" alt="...">
+        <img widht="200" height="200" *ngIf="!product.productImageFiles.length"
+            src="../../../../../assets/product_template.png" class="card-img-top" alt="...">
+        <img widht="200" height="200" *ngIf="product.productImageFiles.length"
+            src="{{baseUrl.url}}/{{product.imagePath}}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">{{product.name}}</h5>
             <p class="card-text">Fiyat : {{product.price | currency:'₺ '}} <br /> Stok : {{product.stock}} </p>
@@ -8,7 +11,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="row">
     <div class="col-md-3"></div>
