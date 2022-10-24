@@ -17,9 +17,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" routerLink="products">Products</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link active" aria-current="page" routerLink="basket">Basket</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" routerLink="register"
                                 *ngIf="!authService.isAuthenticated">Register</a>
@@ -37,6 +37,10 @@
                                 *ngIf="authService.isAuthenticated">Admin</a>
                         </li>
                     </ul>
+                    <div class="d-flex">
+                        <button class="btn btn-outline-success" type="submit" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">Basket</button>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -57,3 +61,6 @@
 
 <ngx-spinner name="s1" type="ball-scale"></ngx-spinner>
 <ngx-spinner name="s2" type="ball-atom"></ngx-spinner>
+
+
+<app-baskets></app-baskets>
