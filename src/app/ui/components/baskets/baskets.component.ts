@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 import { BaseComponent, SpinnerTypes } from 'src/app/base/base.component';
 import { List_Basket_Item } from 'src/app/contracts/basket/list_basket_item';
 import { Update_Basket_Item } from 'src/app/contracts/basket/update_basket_item';
+import { Create_Order } from 'src/app/contracts/order/create_order';
 import { BasketService } from 'src/app/services/common/models/basket.service';
+import { OrderService } from 'src/app/services/common/models/order.service';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/services/ui/custom-toastr.service';
 
 declare var $: any
 
@@ -14,7 +19,7 @@ declare var $: any
 })
 export class BasketsComponent extends BaseComponent implements OnInit {
 
-  constructor(spinner: NgxSpinnerService, private basketService: BasketService) {
+  constructor(spinner: NgxSpinnerService, private basketService: BasketService, private orderService: OrderService, private toastrService: CustomToastrService, private router: Router) {
     super(spinner)
   }
 
@@ -45,5 +50,18 @@ export class BasketsComponent extends BaseComponent implements OnInit {
 
   }
 
+  async completeShopping() {
+    this.showSpinner(SpinnerTypes.BallAtom)
+    const order: Create_Order = new Create_Order();
+    order.adress = "Erenler";
+    order.description = "Eskiler kumartaş diye bilir..."
+    await this.orderService.create(order)
+    this.hideSpinner(SpinnerTypes.BallAtom);
+    this.toastrService.message("Sipariş alınmıştır", "Sipariş oluşturuldu", {
+      messageType: ToastrMessageType.Info,
+      position: ToastrPosition.BottomRight
+    })
+    this.router.navigate(["/"])
+  }
 
 }
