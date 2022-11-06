@@ -3,4 +3,5 @@ export class List_Order {
     username: string
     totalPrice: number
     createdDate: Date
+    completed: boolean
 }

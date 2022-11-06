@@ -22,7 +22,7 @@ export class ListComponent extends BaseComponent implements OnInit {
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['orderCode', 'username', 'totalPrice', 'createdDate', 'viewDetail', 'delete'];
+  displayedColumns: string[] = ['orderCode', 'username', 'totalPrice', 'createdDate', 'completed', 'viewDetail', 'delete'];
   dataSource: MatTableDataSource<List_Order> = null;
 
   async getOrders() {
