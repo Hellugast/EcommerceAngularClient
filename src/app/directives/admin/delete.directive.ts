@@ -44,7 +44,7 @@ export class DeleteDirective {
         }, this.id).subscribe(data => {
           $(td.parentElement).fadeOut(500, () => {
             this.callback.emit();
-            this.alertifyService.message("ürün başarıyla silindi", {
+            this.alertifyService.message(`${this.controller == 'roles' ? 'Rol' : 'Ürün'} başarıyla silindi`, {
               messageType: MessageType.Success,
               position: Position.TopRight
             })
